@@ -1,8 +1,10 @@
 import React from "react";
 
 const EventList = () => {
-  const events = [
+  const [event,setEvent] = [
     {
+      day: 5,
+      momth: 5,
       title: "Dribbble Meet Up",
       date: "05 March 2016",
       time: "6:00pm",
@@ -10,6 +12,8 @@ const EventList = () => {
         "https://cdn.vectorstock.com/i/1000v/51/87/student-avatar-user-profile-icon-vector-47025187.jpg",
     },
     {
+      day: 5,
+      momth: 5,
       title: "Design Meeting",
       date: "08 March 2016",
       time: "5:00pm",
@@ -17,6 +21,8 @@ const EventList = () => {
         "https://cdn.vectorstock.com/i/1000v/51/87/student-avatar-user-profile-icon-vector-47025187.jpg",
     },
     {
+      day: 5,
+      momth: 5,
       title: "Annual Conference",
       date: "12 March 2016",
       time: "1:00pm",
@@ -57,6 +63,7 @@ const EventList = () => {
               />
             </svg>
           </div>
+          <div className="h-10 border-b-4" ></div>
         </div>
       ))}
       <div className="text-gray-400 flex justify-center">
@@ -66,7 +73,7 @@ const EventList = () => {
   );
 };
 
-const Calendar = () => {
+const Calendar = ({setSelectedDateChoose}) => {
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [month, setMonth] = React.useState(new Date().getMonth() + 1);
   const [year, setYear] = React.useState(new Date().getFullYear());
@@ -96,7 +103,13 @@ const Calendar = () => {
   }
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const markedDays = [7, 19, 29]; // You can change this based on your requirements
+  const markedDays = [29]; // You can change this based on your requirements
+
+  const handleDateClick = (day,month) => {
+    setSelectedDateChoose({
+      day,month
+    })
+  }
 
   const monthNames = [
     "January",
@@ -143,6 +156,7 @@ const Calendar = () => {
         ))}
         {daysArray.map((day, index) => (
           <span
+            onClick={() => handleDateClick(day,month)}
             key={index}
             className={`text-center py-1 rounded-full w-6 ${
               day !== "" && markedDays.includes(day)
@@ -159,16 +173,22 @@ const Calendar = () => {
 };
 
 export default function App() {
+
+  const [selectedDateChoose , setSelectedDateChoose ] = React.useState({});
+  console.log(selectedDateChoose)
+
+
+
   return (
     <div class="flex justify-center items-center h-screen">
       <div class="bg-white-200 p-4 rounded-lg">
         <div class="flex justify-center items-center h-screen">
           <div class="grid grid-cols-2 gap-4 bg-white">
             <div class="bg-white text-white font-bold py-2 px-4 rounded">
-              <Calendar />
+              <Calendar setSelectedDateChoose={setSelectedDateChoose} />
             </div>
             <div class="bg-white text-white font-bold py-4 px-4 rounded">
-              <EventList />
+              <EventList selectedDateChoose={selectedDateChoose} />
             </div>
           </div>
           <div></div>
